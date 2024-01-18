@@ -32,6 +32,8 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         String message = context.getString(R.string.new_notification);
 
+        // Si estamos a más de Android 8 debemos crear un notification channel
+        // https://developer.android.com/develop/ui/views/notifications/channels?hl=es-419
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             final int NOTIFY_ID = 0;
             String id = NOTIFICATION_CHANNEL_ID;
@@ -68,6 +70,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 
         } else {
+            // Si no simplemente creamos la notificacion
             pendingIntent = PendingIntent.getActivity(context, 1, mIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             notification = new NotificationCompat.Builder(context)
                     .setContentIntent(pendingIntent)

@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Para recibir las variables de tiempo
         settings = getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE);
 
         String hour, minute;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
             notificationsTime.setText(hour + ":" + minute);
         }
 
+        // Al momento de querer poner una alarma nos aparece el TimePickerDialog
         findViewById(R.id.change_notification).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 mTimePicker = new TimePickerDialog(MainActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        // Al momento de seleccionar, obtenemos la hora deseada y llamamos a Utils
                         String finalHour, finalMinute;
 
                         finalHour = "" + selectedHour;
@@ -68,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
                         Toast.makeText(MainActivity.this, getString(R.string.changed_to, finalHour + ":" + finalMinute), Toast.LENGTH_LONG).show();
 
+                        // En Utils se crea a traves de AlarmManager la llamada al Broadcast Receiver
                         Utils.setAlarm(alarmID, today.getTimeInMillis(), MainActivity.this);
                     }
                 }, hour, minute, true);
